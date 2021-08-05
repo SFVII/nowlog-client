@@ -10,7 +10,7 @@ import * as winston from 'winston';
 import {RabbitTransport} from "./RabbitTransport";
 
 interface logger {
-    message: string | any; // log description
+    message?: string | any; // log description
     ID?: string; // log id indicator used into elk for filtering
     taskName?: string; // name your task used on multiple log in same function
     err?: any; // display error, usually you have to use "message"

@@ -6,7 +6,7 @@
  **  @Description
  ***********************************************************/
 interface logger {
-    message: string | any;
+    message?: string | any;
     ID?: string;
     taskName?: string;
     err?: any;
