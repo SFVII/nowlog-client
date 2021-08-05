@@ -51,7 +51,7 @@ const Logger = (index, config) => {
             const time = t.end(); // emit data;
             console.log(time) will print time in seconds
      */
-    const timer = (name, meta) => {
+    const timer = (name, meta = {}) => {
         const start = new Date().getTime();
         return {
             End: () => {
@@ -89,7 +89,7 @@ const Logger = (index, config) => {
             const bench = m.end() // emit value
             console.log(bench) => 150 will print value in MB
     */
-    const memoryBench = (BreakPoint, meta) => {
+    const memoryBench = (BreakPoint, meta = {}) => {
         const used = process.memoryUsage();
         const startUsage = Math.round(used.rss / 1024 / 1024 * 100) / 100;
         if (meta.message)

@@ -89,7 +89,7 @@ const Logger: (index: string, config: rabbitInterface) => {
             const time = t.end(); // emit data;
             console.log(time) will print time in seconds
      */
-    const timer = (name: string, meta ?: logger) => {
+    const timer = (name: string, meta: logger = {}) => {
         const start = new Date().getTime();
         return {
             End: () => {
@@ -138,7 +138,7 @@ const Logger: (index: string, config: rabbitInterface) => {
             const bench = m.end() // emit value
             console.log(bench) => 150 will print value in MB
     */
-    const memoryBench = (BreakPoint: string, meta ?: logger) => {
+    const memoryBench = (BreakPoint: string, meta : logger = {}) => {
         const used: any = process.memoryUsage();
         const startUsage: number = Math.round(used.rss / 1024 / 1024 * 100) / 100;
         if (meta.message)
