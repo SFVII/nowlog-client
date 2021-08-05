@@ -42,7 +42,7 @@ export class RabbitTransport {
       host: os.hostname(),
       tags: [
         level ? level : 'unknown',
-        msg.time && msg.message ? 'time_bench' : '',
+        meta.time && msg.message ? 'time_bench' : '',
         os.hostname()
       ].filter((e: string) => e !== ''),
     })));

@@ -15,28 +15,28 @@ const Logger = (index, config) => {
         format: winston.format.json(),
         transports: [
             // @ts-ignore
-            new RabbitTransport_1.RabbitTransport(config, 'nowlog-' + index + '-' + process.env.MODE),
+            new RabbitTransport_1.RabbitTransport(config, `nowlog-${index}-${(process.env.MODE || 'default')}`),
             new winston.transports.Console()
         ]
     });
     let requestId = 1000;
     const logger = {
-        info: (...args) => {
+        info: (args) => {
             const child = log.child({ requestId: requestId++ });
             // @ts-ignore
             child.info(...args);
         },
-        warn: (...args) => {
+        warn: (args) => {
             const child = log.child({ requestId: requestId++ });
             // @ts-ignore
             child.warn(...args);
         },
-        error: (...args) => {
+        error: (args) => {
             const child = log.child({ requestId: requestId++ });
             // @ts-ignore
             child.error(...args);
         },
-        debug: (...args) => {
+        debug: (args) => {
             const child = log.child({ requestId: requestId++ });
             // @ts-ignore
             child.debug(...args);
@@ -48,7 +48,12 @@ const Logger = (index, config) => {
             End: () => {
                 const end = new Date().getTime();
                 const diff = (end - start) / 1000;
-                logger.debug({ message: 'Task ' + name + ' duration: ' + diff + 's to execute', time: diff, taskName: name, ID: meta.ID });
+                logger.debug({
+                    message: 'Task ' + name + ' duration: ' + diff + 's to execute',
+                    time: diff,
+                    taskName: name,
+                    ID: meta.ID
+                });
                 return Math.abs(diff);
             }
         };
