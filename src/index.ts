@@ -63,22 +63,92 @@ const Logger: any = (index: string, config: rabbitInterface) => {
             child.debug(...args);
         }
     }
+
+
+    /*
+        @ Name : timer
+        @ Description : Analyse time between start and End
+        @ Use case :
+            const t = timer('helloworld');
+              const test = 'hello world';
+            const time = t.end(); // emit data;
+            console.log(time) will print time in seconds
+     */
     const timer = (name: string, meta ?: logger) => {
         const start = new Date().getTime();
         return {
             End: () => {
                 const end = new Date().getTime();
                 const diff = (end - start) / 1000;
+                delete meta.message;
+                delete meta.time;
+                delete meta.taskName;
                 logger.debug({
                     message: 'Task ' + name + ' duration: ' + diff + 's to execute',
                     time: diff,
                     taskName: name,
-                    ID: meta.ID
+                    ...meta
+                })
+                return Math.abs(diff);
+            },
+            end: () => {
+                const end = new Date().getTime();
+                const diff = (end - start) / 1000;
+                delete meta.message;
+                delete meta.time;
+                delete meta.taskName;
+                logger.debug({
+                    message: 'Task ' + name + ' duration: ' + diff + 's to execute',
+                    time: diff,
+                    taskName: name,
+                    ...meta
                 })
                 return Math.abs(diff);
             }
         }
     };
-    return {logger, timer};
+
+    /*
+        @ Name : memoryBench
+        @ Description : log current memory usage of the app
+        @ Use case :
+            const m = memoryBench('myBreakPoint')
+             // your code to analyze
+            const bench = m.end() // emit value
+            console.log(bench) => 150 will print value in MB
+    */
+    const memoryBench = (BreakPoint: string, meta ?: logger) => {
+        const used: any = process.memoryUsage();
+        const startUsage: number = Math.round(used.rss / 1024 / 1024 * 100) / 100;
+        delete meta.message;
+        delete meta.time;
+        delete meta.taskName;
+        delete meta.memory;
+        return {
+            end: () => {
+                const endUsage: number = Math.round(used.rss / 1024 / 1024 * 100) / 100;
+                const diff = endUsage - startUsage;
+                logger.debug({
+                    message: `Memory usage at ${BreakPoint} is ${diff} MB`,
+                    taskName: BreakPoint,
+                    memory: diff,
+                    ...meta
+                })
+                return Math.abs(diff)
+            },
+            End: () => {
+                const endUsage: number = Math.round(used.rss / 1024 / 1024 * 100) / 100;
+                const diff = endUsage - startUsage;
+                logger.debug({
+                    message: `Memory usage at ${BreakPoint} is ${diff} MB`,
+                    taskName: BreakPoint,
+                    memory: diff,
+                    ...meta
+                })
+                return Math.abs(diff)
+            }
+        }
+    }
+    return {logger, timer, memoryBench};
 }
 export default Logger

@@ -34,24 +34,24 @@ class RabbitTransport {
                 this.publish = yield this.conn.createChannel();
             }
             const date = new Date();
-            this.publish.publish('', 'live-logs', Buffer.from(JSON.stringify({
-                '@timestamp': date.getTime(),
-                level,
-                index: this.index,
-                name: this.index,
-                date,
-                id: meta.ID,
-                execName: meta.taskName,
-                timeExecution: meta.time ? meta.time : undefined,
-                message: msg,
-                err: meta.err ? (typeof meta.err === 'object' ? JSON.stringify(meta.err) : meta.err) : undefined,
-                host: os.hostname(),
-                tags: [
+            const execName = meta.taskName;
+            const id = meta.ID;
+            const timeExecution = meta.time;
+            const message = msg || meta.message;
+            const err = meta.err;
+            delete meta.taskName;
+            delete meta.ID;
+            delete meta.message;
+            delete meta.err;
+            this.publish.publish('', 'live-logs', Buffer.from(JSON.stringify(Object.assign({ '@timestamp': date.getTime(), level, index: this.index, name: this.index, date,
+                id,
+                execName,
+                timeExecution,
+                message, err: err ? (typeof err === 'object' ? JSON.stringify(err) : err) : undefined, host: os.hostname(), tags: [
                     level ? level : 'unknown',
                     meta.time && msg.message ? 'time_bench' : '',
                     os.hostname()
-                ].filter((e) => e !== ''),
-            })));
+                ].filter((e) => e !== '') }, meta))));
             if (callback) {
                 callback(null, true);
             }
