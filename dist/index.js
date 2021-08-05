@@ -7,16 +7,16 @@
  **  @Description
  ***********************************************************/
 Object.defineProperty(exports, "__esModule", { value: true });
-const winston_1 = require("winston");
+const winston = require("winston");
 const RabbitTransport_1 = require("./RabbitTransport");
 const Logger = (index, config) => {
-    const log = winston_1.default.createLogger({
+    const log = winston.createLogger({
         level: 'info',
-        format: winston_1.default.format.json(),
+        format: winston.format.json(),
         transports: [
             // @ts-ignore
             new RabbitTransport_1.RabbitTransport(config, 'nowlog-' + index + '-' + process.env.MODE),
-            new winston_1.default.transports.Console()
+            new winston.transports.Console()
         ]
     });
     let requestId = 1000;

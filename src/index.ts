@@ -6,7 +6,7 @@
  **  @Description
  ***********************************************************/
 
-import winston from 'winston';
+import * as winston from 'winston';
 import {RabbitTransport} from "./RabbitTransport";
 
 const Logger: any = (index: string, config: any) => {
