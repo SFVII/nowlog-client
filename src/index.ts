@@ -60,22 +60,22 @@ const Logger: (index: string, config: rabbitInterface) => {
         info: (args: logger) => {
             const child = log.child({requestId: requestId++})
             // @ts-ignore
-            child.info(...args);
+            child.info(args);
         },
         warn: (args: logger) => {
             const child = log.child({requestId: requestId++})
             // @ts-ignore
-            child.warn(...args);
+            child.warn(args);
         },
         error: (args: logger) => {
             const child = log.child({requestId: requestId++})
             // @ts-ignore
-            child.error(...args);
+            child.error(args);
         },
         debug: (args: logger) => {
             const child = log.child({requestId: requestId++})
             // @ts-ignore
-            child.debug(...args);
+            child.debug(args);
         }
     }
 
