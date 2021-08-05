@@ -57,18 +57,24 @@ const Logger = (index, config) => {
             End: () => {
                 const end = new Date().getTime();
                 const diff = (end - start) / 1000;
-                delete meta.message;
-                delete meta.time;
-                delete meta.taskName;
+                if (meta.message)
+                    delete meta.message;
+                if (meta.time)
+                    delete meta.time;
+                if (meta.taskName)
+                    delete meta.taskName;
                 logger.debug(Object.assign({ message: 'Task ' + name + ' duration: ' + diff + 's to execute', time: diff, taskName: name }, meta));
                 return Math.abs(diff);
             },
             end: () => {
                 const end = new Date().getTime();
                 const diff = (end - start) / 1000;
-                delete meta.message;
-                delete meta.time;
-                delete meta.taskName;
+                if (meta.message)
+                    delete meta.message;
+                if (meta.time)
+                    delete meta.time;
+                if (meta.taskName)
+                    delete meta.taskName;
                 logger.debug(Object.assign({ message: 'Task ' + name + ' duration: ' + diff + 's to execute', time: diff, taskName: name }, meta));
                 return Math.abs(diff);
             }
@@ -86,10 +92,14 @@ const Logger = (index, config) => {
     const memoryBench = (BreakPoint, meta) => {
         const used = process.memoryUsage();
         const startUsage = Math.round(used.rss / 1024 / 1024 * 100) / 100;
-        delete meta.message;
-        delete meta.time;
-        delete meta.taskName;
-        delete meta.memory;
+        if (meta.message)
+            delete meta.message;
+        if (meta.time)
+            delete meta.time;
+        if (meta.taskName)
+            delete meta.taskName;
+        if (meta.memory)
+            delete meta.memory;
         return {
             end: () => {
                 const endUsage = Math.round(used.rss / 1024 / 1024 * 100) / 100;

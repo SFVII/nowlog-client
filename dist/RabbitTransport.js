@@ -39,10 +39,14 @@ class RabbitTransport {
             const timeExecution = meta.time;
             const message = msg || meta.message;
             const err = meta.err;
-            delete meta.taskName;
-            delete meta.ID;
-            delete meta.message;
-            delete meta.err;
+            if (meta.taskName)
+                delete meta.taskName;
+            if (meta.ID)
+                delete meta.ID;
+            if (meta.message)
+                delete meta.message;
+            if (meta.err)
+                delete meta.err;
             this.publish.publish('', 'live-logs', Buffer.from(JSON.stringify(Object.assign({ '@timestamp': date.getTime(), level, index: this.index, name: this.index, date,
                 id,
                 execName,
