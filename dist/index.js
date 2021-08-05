@@ -24,22 +24,22 @@ const Logger = (index, config) => {
         info: (args) => {
             const child = log.child({ requestId: requestId++ });
             // @ts-ignore
-            child.info(...args);
+            child.info(args);
         },
         warn: (args) => {
             const child = log.child({ requestId: requestId++ });
             // @ts-ignore
-            child.warn(...args);
+            child.warn(args);
         },
         error: (args) => {
             const child = log.child({ requestId: requestId++ });
             // @ts-ignore
-            child.error(...args);
+            child.error(args);
         },
         debug: (args) => {
             const child = log.child({ requestId: requestId++ });
             // @ts-ignore
-            child.debug(...args);
+            child.debug(args);
         }
     };
     /*
