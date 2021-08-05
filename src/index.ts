@@ -30,7 +30,22 @@ interface rabbitInterface {
     vhost?: string; // default "/"
 }
 
-const Logger: any = (index: string, config: rabbitInterface) => {
+const Logger: (index: string, config: rabbitInterface) => {
+    timer: (name: string, meta?: logger) => {
+        End: () => number;
+        end: () => number
+    };
+    logger: {
+        warn: (args: logger) => void;
+        debug: (args: logger) => void;
+        error: (args: logger) => void;
+        info: (args: logger) => void
+    };
+    memoryBench: (BreakPoint: string, meta?: logger) => {
+        end: () => number;
+        End: () => number;
+    }
+} = (index: string, config: rabbitInterface) => {
     const log = winston.createLogger({
         level: 'info',
         format: winston.format.json(),
